@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import ImportWorldCupButton from "@/components/import-world-cup-button";
 import ScorePredictionsButton from "../../../components/score-predictions-button";
 import AppNav from "../../../components/app-nav";
@@ -7,8 +5,6 @@ import Link from "next/link";
 import { requireParticipant } from "@/lib/current-participant";
 
 export default async function ImportPage() {
-  const supabase = await createClient();
-
   const participant = await requireParticipant();
 
   return (

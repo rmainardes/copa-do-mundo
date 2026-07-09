@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import AppNav from "../../../components/app-nav";
 import AdminPredictionForm from "../../../components/admin-prediction-form";
 import { createClient } from "../../../lib/supabase/server";

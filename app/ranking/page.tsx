@@ -1,28 +1,6 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
 import AppNav from "../../components/app-nav";
 import { requireParticipant } from "@/lib/current-participant";
 import { createAdminClient } from "../../lib/supabase/admin";
-
-type RankingRow = {
-  user_id: string;
-  display_name: string | null;
-
-  total_points: number;
-
-  group_points: number;
-  round_of_32_points: number;
-  round_of_16_points: number;
-  quarter_final_points: number;
-  semi_final_points: number;
-  third_place_points: number;
-  final_points: number;
-
-  predictions_count: number;
-  scored_predictions_count: number;
-  exact_score_count: number;
-  result_hit_count: number;
-};
 
 export default async function RankingPage() {
   const participant = await requireParticipant();

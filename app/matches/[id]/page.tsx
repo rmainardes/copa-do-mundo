@@ -127,9 +127,6 @@ export default async function MatchDetailPage({ params }: MatchPageProps) {
     .eq("user_id", participant.id)
     .maybeSingle();
 
-  const homeTeam = getTeam(match.home_team);
-  const awayTeam = getTeam(match.away_team);
-
   const homeTeamLabel = getTeamLabel(match.home_team, match.home_placeholder);
   const awayTeamLabel = getTeamLabel(match.away_team, match.away_placeholder);
 
