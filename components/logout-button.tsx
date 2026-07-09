@@ -29,7 +29,7 @@ export default function LogoutButton() {
       disabled={isLeaving}
       className="rounded-lg border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-900 disabled:opacity-60"
     >
-      {isLeaving ? "Saindo..." : "Trocar participante"}
+      {isLeaving ? "Saindo..." : "Sair"}
     </button>
   );
 }
