@@ -1,12 +1,12 @@
 import AppNav from "../../../components/app-nav";
 import AdminPredictionForm from "../../../components/admin-prediction-form";
-import { createClient } from "../../../lib/supabase/server";
+import { createAdminClient } from "../../../lib/supabase/admin";
 import { translateTeamName } from "../../../lib/world-cup/team-translations";
 import {
   translateMatchStage,
   translateMatchStatus,
 } from "../../../lib/world-cup/match-labels";
-import { requireParticipant } from "../../../lib/current-participant";
+import { requireAdminParticipant } from "../../../lib/current-participant";
 
 type TeamRelation =
   | {
@@ -52,26 +52,13 @@ function formatMatchDate(kickoffAt: string) {
 }
 
 export default async function AdminPredictionsPage() {
-  const supabase = await createClient();
-
-  const participant = await requireParticipant();
+  const participant = await requireAdminParticipant();
+  const supabase = createAdminClient();
 
   const { data: participants, error: participantsError } = await supabase
     .from("profiles")
     .select("id, display_name")
     .order("display_name", { ascending: true });
-
-  if (participantsError) {
-    return (
-      <main className="min-h-screen bg-slate-950 text-white">
-        <AppNav isAdmin />
-
-        <div className="mx-auto max-w-4xl px-6 py-8">
-          <p>Erro ao carregar participantes: {participantsError.message}</p>
-        </div>
-      </main>
-    );
-  }
 
   const { data: matches, error: matchesError } = await supabase
     .from("matches")
@@ -89,13 +76,25 @@ export default async function AdminPredictionsPage() {
     )
     .order("kickoff_at", { ascending: true });
 
-  if (matchesError) {
+  if (participantsError || matchesError) {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <AppNav isAdmin={participant.is_admin} />
 
         <div className="mx-auto max-w-4xl px-6 py-8">
-          <p>Erro ao carregar jogos: {matchesError.message}</p>
+          <h1 className="text-3xl font-bold">
+            Cadastrar palpites de participantes
+          </h1>
+
+          <div className="mt-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
+            {participantsError && (
+              <p>Erro ao carregar participantes: {participantsError.message}</p>
+            )}
+
+            {matchesError && (
+              <p>Erro ao carregar jogos: {matchesError.message}</p>
+            )}
+          </div>
         </div>
       </main>
     );
@@ -121,7 +120,7 @@ export default async function AdminPredictionsPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <AppNav isAdmin />
+      <AppNav isAdmin={participant.is_admin} />
 
       <div className="mx-auto max-w-4xl px-6 py-8">
         <h1 className="text-3xl font-bold">
@@ -132,6 +131,11 @@ export default async function AdminPredictionsPage() {
           Use esta tela para lançar palpites que foram feitos em papel ou fora
           do app.
         </p>
+
+        <div className="mt-4 rounded-lg border border-slate-800 bg-slate-900 p-4 text-sm text-slate-400">
+          <p>Participantes carregados: {participants?.length ?? 0}</p>
+          <p>Jogos carregados: {matchOptions.length}</p>
+        </div>
 
         <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
           <AdminPredictionForm
