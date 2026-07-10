@@ -262,12 +262,28 @@ export default async function MatchesPage() {
                       </div>
                     )}
 
-                    <Link
-                      href={`/matches/${match.id}`}
-                      className="mt-3 inline-block rounded-lg border border-emerald-500 px-3 py-1.5 text-sm font-semibold text-emerald-400 hover:bg-slate-800"
-                    >
-                      {prediction ? "Editar palpite" : "Palpitar"}
-                    </Link>
+                    {match.status === "finished" ? (
+                      <Link
+                        href={`/matches/${match.id}`}
+                        className="mt-3 inline-block rounded-lg border border-slate-700 px-3 py-1.5 text-sm font-semibold text-slate-300 hover:bg-slate-800"
+                      >
+                        Ver jogo
+                      </Link>
+                    ) : locked && !participant.is_admin ? (
+                      <Link
+                        href={`/matches/${match.id}`}
+                        className="mt-3 inline-block rounded-lg border border-slate-700 px-3 py-1.5 text-sm font-semibold text-slate-300 hover:bg-slate-800"
+                      >
+                        Ver jogo
+                      </Link>
+                    ) : (
+                      <Link
+                        href={`/matches/${match.id}`}
+                        className="mt-3 inline-block rounded-lg border border-emerald-500 px-3 py-1.5 text-sm font-semibold text-emerald-400 hover:bg-slate-800"
+                      >
+                        {prediction ? "Editar palpite" : "Palpitar"}
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
