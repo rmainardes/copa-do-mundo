@@ -47,17 +47,22 @@ const TEAM_NAME_TRANSLATIONS_BY_FIFA_CODE: Record<string, string> = {
 };
 
 const TEAM_NAME_TRANSLATIONS_BY_ENGLISH_NAME: Record<string, string> = {
+  Algeria: "Argélia",
   Argentina: "Argentina",
   Australia: "Austrália",
+  Austria: "Áustria",
   Belgium: "Bélgica",
+  "Bosnia and Herzegovina": "Bósnia e Herzegovina",
   Brazil: "Brasil",
   Canada: "Canadá",
+  "Cape Verde": "Cabo Verde",
   Chile: "Chile",
   China: "China",
   Colombia: "Colômbia",
   "Costa Rica": "Costa Rica",
   Croatia: "Croácia",
   "Czech Republic": "República Tcheca",
+  "Democratic Republic of the Congo": "RD do Congo",
   Denmark: "Dinamarca",
   Ecuador: "Equador",
   Egypt: "Egito",
@@ -66,8 +71,11 @@ const TEAM_NAME_TRANSLATIONS_BY_ENGLISH_NAME: Record<string, string> = {
   Germany: "Alemanha",
   Ghana: "Gana",
   Iran: "Irã",
+  Iraq: "Iraque",
   Italy: "Itália",
+  "Ivory Coast": "Costa do Marfim",
   Japan: "Japão",
+  Jordan: "Jordânia",
   Mexico: "México",
   Morocco: "Marrocos",
   Netherlands: "Holanda",
@@ -89,10 +97,12 @@ const TEAM_NAME_TRANSLATIONS_BY_ENGLISH_NAME: Record<string, string> = {
   Switzerland: "Suíça",
   Sweden: "Suécia",
   Tunisia: "Tunísia",
+  Turkey: "Turquia",
   Ukraine: "Ucrânia",
   "United States": "Estados Unidos",
   USA: "Estados Unidos",
   Uruguay: "Uruguai",
+  Uzbekistan: "Uzbequistão",
 };
 
 export function translateTeamName({

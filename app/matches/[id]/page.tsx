@@ -130,6 +130,27 @@ export default async function MatchDetailPage({ params }: MatchPageProps) {
   const homeTeamLabel = getTeamLabel(match.home_team, match.home_placeholder);
   const awayTeamLabel = getTeamLabel(match.away_team, match.away_placeholder);
 
+  const { data: userPredictions } = await supabase
+    .from("predictions")
+    .select("match_id")
+    .eq("user_id", participant.id);
+
+  const predictedMatchIds = new Set(
+    (userPredictions ?? []).map((prediction) => prediction.match_id),
+  );
+
+  const { data: openMatches } = await supabase
+    .from("matches")
+    .select("id, kickoff_at")
+    .neq("status", "finished")
+    .gt("kickoff_at", new Date().toISOString())
+    .order("kickoff_at", { ascending: true });
+
+  const nextPendingMatch = (openMatches ?? []).find(
+    (openMatch) =>
+      openMatch.id !== match.id && !predictedMatchIds.has(openMatch.id),
+  );
+
   const isAdmin = participant.is_admin;
   const locked = isPredictionLocked(match.kickoff_at, isAdmin);
 
@@ -205,6 +226,7 @@ export default async function MatchDetailPage({ params }: MatchPageProps) {
             homeTeamName={homeTeamLabel}
             awayTeamName={awayTeamLabel}
             isLocked={locked}
+            nextPendingMatchId={nextPendingMatch?.id ?? null}
             initialPrediction={
               prediction
                 ? {

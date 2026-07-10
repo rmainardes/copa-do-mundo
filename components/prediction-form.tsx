@@ -8,6 +8,7 @@ type PredictionFormProps = {
   homeTeamName: string;
   awayTeamName: string;
   isLocked: boolean;
+  nextPendingMatchId?: string | null;
   initialPrediction: {
     predicted_home_score: number;
     predicted_away_score: number;
@@ -24,9 +25,12 @@ export default function PredictionForm({
   homeTeamName,
   awayTeamName,
   isLocked,
+  nextPendingMatchId,
   initialPrediction,
 }: PredictionFormProps) {
   const router = useRouter();
+
+  const [wasSaved, setWasSaved] = useState(false);
 
   const [homeScore, setHomeScore] = useState(
     initialPrediction?.predicted_home_score?.toString() ?? "",
@@ -71,6 +75,7 @@ export default function PredictionForm({
       }
 
       setIsSuccess(true);
+      setWasSaved(true);
       setMessage("Palpite salvo com sucesso.");
       router.refresh();
     } catch (error) {
@@ -134,6 +139,39 @@ export default function PredictionForm({
           ].join(" ")}
         >
           {message}
+        </div>
+      )}
+      {wasSaved && isSuccess && (
+        <div className="flex flex-col gap-3 rounded-lg border border-slate-700 bg-slate-950 p-4 sm:flex-row">
+          {nextPendingMatchId ? (
+            <button
+              type="button"
+              onClick={() => router.push(`/matches/${nextPendingMatchId}`)}
+              className="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-slate-950 hover:bg-emerald-400"
+            >
+              Próximo jogo sem palpite
+            </button>
+          ) : (
+            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-200">
+              Você já fez todos os palpites disponíveis.
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => router.push("/matches")}
+            className="rounded-lg border border-slate-700 px-4 py-2 font-semibold text-slate-300 hover:bg-slate-900"
+          >
+            Voltar para jogos
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/ranking")}
+            className="rounded-lg border border-slate-700 px-4 py-2 font-semibold text-slate-300 hover:bg-slate-900"
+          >
+            Ver ranking
+          </button>
         </div>
       )}
 
