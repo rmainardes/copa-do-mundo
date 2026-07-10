@@ -32,8 +32,28 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-5xl">
         <AppNav isAdmin={participant.is_admin} />
 
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-          <h2 className="text-xl font-semibold">Resumo dos seus palpites</h2>
+        <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">Página inicial</h1>
+
+              <p className="mt-2 text-slate-400">
+                Você está participando como:
+              </p>
+
+              <p className="mt-1 text-2xl font-bold text-emerald-300">
+                {participant.display_name ?? "Participante"}
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+              Participante selecionado
+            </div>
+          </div>
+
+          <h2 className="mt-8 text-xl font-semibold">
+            Resumo dos seus palpites
+          </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-4">
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-4">
